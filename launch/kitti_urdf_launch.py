@@ -8,7 +8,7 @@ import xacro
 def generate_launch_description():
   pkg_name = "kitti_urdf"
   xacro_file = "description/kitti_urdf.xacro"
-  rviz_file = "rviz/kitti.rviz"
+  rviz_file = "rviz/kitti_urdf.rviz"
 
   # Use xacro to process the file
   xacro_file = join(get_package_share_directory(pkg_name), xacro_file)

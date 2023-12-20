@@ -16,6 +16,7 @@
 
 
   <!-- This link is help to identify the vehicle -->
+  <!--
   <link name="map">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -25,6 +26,7 @@
       <material name="red"/>
     </visual>
   </link>
+  -->
 
   <link name="base_link">
     <!-- body base -->
@@ -90,10 +92,12 @@
 
   <!-- A simple fixed joint from our empty map link, to our base. -->
   <!-- The base origin is offset from the map origin -->
+  <!--
   <joint name="map_to_base_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0.3"/>
     <parent link="map"/>
     <child link="base_link"/>
   </joint>
+  -->
 
 </robot>
