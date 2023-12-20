@@ -3,15 +3,23 @@
 
   <!-- Specify some colours -->
   <material name="white">
-    <color rgba="1 1 1 1"/>
+    <color rgba="1 1 1 0.8"/>
   </material>
 
   <material name="red">
-    <color rgba="1 0 0 1"/>
+    <color rgba="1 0 0 0.8"/>
+  </material>
+
+  <material name="blue">
+    <color rgba="0 0 1 0.8"/>
+  </material>
+
+  <material name="green">
+    <color rgba="0 1 0 0.8"/>
   </material>
 
   <material name="black">
-    <color rgba="0 0 0 1"/>
+    <color rgba="0 0 0 0.8"/>
   </material>
 
 
@@ -100,4 +108,63 @@
   </joint>
   -->
 
+  <!-- GPS object -->
+  <link name="gps_link">
+    <visual>
+      <geometry>
+        <box size="0.2 0.05 0.05"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+  </link>
+
+  <joint name="base_to_gps_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="-0.05 0.32 0.6"/>
+    <parent link="base_link"/>
+    <child link="gps_link"/>
+  </joint>
+
+  <!-- IMU object -->
+  <link name="imu_link">
+    <!-- Same object with GPS. Only put the link. -->
+  </link>
+
+  <joint name="base_to_imu_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="-0.05 0.32 0.6"/>
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+  </joint>
+
+  <!-- LiDAR -->
+  <link name="lidar_link">
+    <visual>
+      <geometry>
+        <cylinder radius="0.1" length="0.15"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+  </link>
+
+  <joint name="imu_to_lidar_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0.81 -0.32 1.8"/>
+    <parent link="imu_link"/>
+    <child link="lidar_link"/>
+  </joint>
+
+  <!-- Camera -->
+  <!-- Camera gray left -->
+  <link name="gray_left_camera_link">
+    <visual>
+      <geometry>
+        <box size="0.1 0.05 0.05"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+  </link>
+
+  <joint name="lidar_to_gray_left_camera_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0.27 0 -0.08"/>
+    <parent link="lidar_link"/>
+    <child link="gray_left_camera_link"/>
+  </joint>
 </robot>
