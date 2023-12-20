@@ -1,12 +1,103 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro"  name="robot">
 
-  <link name="base_link">
+  <!-- Specify some colours -->
+  <material name="white">
+    <color rgba="1 1 1 1"/>
+  </material>
+
+  <material name="red">
+    <color rgba="1 0 0 1"/>
+  </material>
+
+  <material name="black">
+    <color rgba="0 0 0 1"/>
+  </material>
+
+
+  <!-- This link is help to identify the vehicle -->
+  <!--
+  <link name="map">
     <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <cylinder length="0.6" radius="0.2"/>
+        <sphere radius="0.1"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+  </link>
+  -->
+
+  <link name="base_link">
+    <!-- body base -->
+    <visual>
+      <origin rpy="0 0 0" xyz="1.355 0 0.4"/>
+      <geometry>
+        <box size="2.71 1.60 0.8"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+
+    <!-- body top -->
+    <visual>
+      <origin rpy="0 0 0" xyz="1.355 0 1.1"/>
+      <geometry>
+        <box size="1.355 1.60 0.6"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <geometry>
+        <box size="2.71 1.60 1.90"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="1.355 0 0.65"/>
+    </collision>
+
+    <!-- front left wheel -->
+    <visual>
+      <origin rpy="1.570796327 0 0" xyz="2.71 0.8 0"/>
+      <geometry>
+        <cylinder radius="0.3" length="0.225"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <!-- front right wheel -->
+    <visual>
+      <origin rpy="1.570796327 0 0" xyz="2.71 -0.8 0"/>
+      <geometry>
+        <cylinder radius="0.3" length="0.225"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <!-- rear left wheel -->
+    <visual>
+      <origin rpy="1.570796327 0 0" xyz="0 0.8 0"/>
+      <geometry>
+        <cylinder radius="0.3" length="0.225"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <!-- rear right wheel -->
+    <visual>
+      <material name="black"/>
+      <origin rpy="1.570796327 0 0" xyz="0 -0.8 0"/>
+      <geometry>
+        <cylinder radius="0.3" length="0.225"/>
       </geometry>
     </visual>
   </link>
+
+  <!-- A simple fixed joint from our empty map link, to our base. -->
+  <!-- The base origin is offset from the map origin -->
+  <!--
+  <joint name="map_to_base_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0.3"/>
+    <parent link="map"/>
+    <child link="base_link"/>
+  </joint>
+  -->
 
 </robot>
