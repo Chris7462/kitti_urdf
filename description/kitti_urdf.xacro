@@ -39,26 +39,27 @@
   <link name="base_link">
     <!-- body base -->
     <visual>
-      <origin rpy="0 0 0" xyz="1.355 0 0.4"/>
+      <origin rpy="0 0 0" xyz="1.355 0 0.675"/>
       <geometry>
-        <box size="2.71 1.60 0.8"/>
+        <box size="2.71 1.60 1.35"/>
       </geometry>
       <material name="white"/>
     </visual>
 
-    <!-- body top -->
+    <!-- body top
     <visual>
       <origin rpy="0 0 0" xyz="1.355 0 1.1"/>
       <geometry>
         <box size="1.355 1.60 0.6"/>
       </geometry>
     </visual>
+    -->
 
     <collision>
       <geometry>
         <box size="2.71 1.60 1.90"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="1.355 0 0.65"/>
+      <origin rpy="0 0 0" xyz="1.355 0 0.675"/>
     </collision>
 
     <!-- front left wheel -->
@@ -119,7 +120,7 @@
   </link>
 
   <joint name="base_to_gps_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="-0.05 0.32 0.6"/>
+    <origin rpy="0 0 0" xyz="-0.05 0.32 0.63"/>
     <parent link="base_link"/>
     <child link="gps_link"/>
   </joint>
@@ -130,7 +131,7 @@
   </link>
 
   <joint name="base_to_imu_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="-0.05 0.32 0.6"/>
+    <origin rpy="0 0 0" xyz="-0.05 0.32 0.63"/>
     <parent link="base_link"/>
     <child link="imu_link"/>
   </joint>
@@ -146,7 +147,7 @@
   </link>
 
   <joint name="imu_to_lidar_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0.81 -0.32 1.8"/>
+    <origin rpy="0 0 0" xyz="0.81 -0.32 0.8"/>  <!-- okay! double checked. -->
     <parent link="imu_link"/>
     <child link="lidar_link"/>
   </joint>
@@ -155,6 +156,25 @@
   <!-- Camera gray left -->
   <link name="gray_left_camera_link">
     <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.05 0.05 0.1"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+  </link>
+
+  <joint name="lidar_to_gray_left_camera_joint" type="fixed">
+    <!-- warning!!! the coordinate is different!!! -->
+    <!-- x: pointing right, y: pointing down, z: pointint front-->
+    <origin rpy="-1.570796327 0 -1.570796327" xyz="0.27 0 -0.08"/>
+    <parent link="lidar_link"/>
+    <child link="gray_left_camera_link"/>
+  </joint>
+
+  <!-- Camera color left
+  <link name="color_left_camera_link">
+    <visual>
       <geometry>
         <box size="0.1 0.05 0.05"/>
       </geometry>
@@ -162,9 +182,11 @@
     </visual>
   </link>
 
-  <joint name="lidar_to_gray_left_camera_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0.27 0 -0.08"/>
-    <parent link="lidar_link"/>
-    <child link="gray_left_camera_link"/>
+  <joint name="gray_left_camera_to_color_left_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0.06 0"/>
+    <parent link="gray_left_camera_link"/>
+    <child link="color_left_camera_link"/>
   </joint>
+  -->
+
 </robot>
