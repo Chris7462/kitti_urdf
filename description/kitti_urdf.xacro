@@ -3,79 +3,82 @@
 
   <!-- Specify some colours -->
   <material name="white">
-    <color rgba="1 1 1 1"/>
+    <color rgba="1 1 1 0.8"/>
   </material>
 
   <material name="red">
-    <color rgba="1 0 0 1"/>
+    <color rgba="1 0 0 0.8"/>
+  </material>
+
+  <material name="blue">
+    <color rgba="0 0 1 0.8"/>
+  </material>
+
+  <material name="green">
+    <color rgba="0 1 0 0.8"/>
   </material>
 
   <material name="black">
-    <color rgba="0 0 0 1"/>
+    <color rgba="0 0 0 0.8"/>
   </material>
 
 
-  <!-- This link is help to identify the vehicle -->
-  <!--
-  <link name="map">
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <sphere radius="0.1"/>
-      </geometry>
-      <material name="red"/>
-    </visual>
-  </link>
-  -->
-
+  <!-- body of the vehicle -->
+  <xacro:property name="vehicle_length" value="2.71"/>
+  <xacro:property name="vehicle_width" value="1.60"/>
+  <xacro:property name="vehicle_height" value="1.35"/>
+  <xacro:property name="wheel_radius" value="0.3"/>
+  <xacro:property name="wheel_length" value="0.225"/>
   <link name="base_link">
     <!-- body base -->
     <visual>
-      <origin rpy="0 0 0" xyz="1.355 0 0.4"/>
+      <origin xyz="${vehicle_length/2} 0 ${vehicle_height/2}"/>
       <geometry>
-        <box size="2.71 1.60 0.8"/>
+        <box size="${vehicle_length} ${vehicle_width} ${vehicle_height}"/>
       </geometry>
       <material name="white"/>
     </visual>
 
-    <!-- body top -->
+    <!-- body top
     <visual>
       <origin rpy="0 0 0" xyz="1.355 0 1.1"/>
       <geometry>
         <box size="1.355 1.60 0.6"/>
       </geometry>
     </visual>
+    -->
 
     <collision>
+      <origin xyz="${vehicle_length/2} 0 ${vehicle_height/2}"/>
       <geometry>
-        <box size="2.71 1.60 1.90"/>
+        <box size="${vehicle_length} ${vehicle_width} ${vehicle_height}"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="1.355 0 0.65"/>
     </collision>
 
+    <!-- Wheel -->
     <!-- front left wheel -->
     <visual>
-      <origin rpy="1.570796327 0 0" xyz="2.71 0.8 0"/>
+      <origin rpy="${pi/2} 0 0" xyz="${vehicle_length} ${vehicle_width/2} 0"/>
       <geometry>
-        <cylinder radius="0.3" length="0.225"/>
+        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
       </geometry>
       <material name="black"/>
     </visual>
 
     <!-- front right wheel -->
     <visual>
-      <origin rpy="1.570796327 0 0" xyz="2.71 -0.8 0"/>
+      <origin rpy="${pi/2} 0 0" xyz="${vehicle_length} ${-vehicle_width/2} 0"/>
       <geometry>
-        <cylinder radius="0.3" length="0.225"/>
+        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
       </geometry>
       <material name="black"/>
     </visual>
 
     <!-- rear left wheel -->
     <visual>
-      <origin rpy="1.570796327 0 0" xyz="0 0.8 0"/>
+      <origin rpy="${pi/2} 0 0" xyz="0 ${vehicle_width/2} 0"/>
       <geometry>
-        <cylinder radius="0.3" length="0.225"/>
+        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -83,21 +86,124 @@
     <!-- rear right wheel -->
     <visual>
       <material name="black"/>
-      <origin rpy="1.570796327 0 0" xyz="0 -0.8 0"/>
+      <origin rpy="${pi/2} 0 0" xyz="0 ${-vehicle_width/2} 0"/>
       <geometry>
-        <cylinder radius="0.3" length="0.225"/>
+        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
       </geometry>
     </visual>
   </link>
 
-  <!-- A simple fixed joint from our empty map link, to our base. -->
-  <!-- The base origin is offset from the map origin -->
-  <!--
-  <joint name="map_to_base_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0 0.3"/>
-    <parent link="map"/>
-    <child link="base_link"/>
+  <!-- GPS object -->
+  <link name="gps_link">
+    <visual>
+      <geometry>
+        <box size="0.2 0.05 0.05"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+  </link>
+
+  <joint name="base_to_gps_joint" type="fixed">
+    <origin xyz="-0.05 0.32 0.63"/>
+    <parent link="base_link"/>
+    <child link="gps_link"/>
   </joint>
-  -->
+
+  <!-- IMU object -->
+  <link name="imu_link">
+    <!-- Same object with GPS. Only put the link. -->
+  </link>
+
+  <joint name="base_to_imu_joint" type="fixed">
+    <origin xyz="-0.05 0.32 0.63"/>
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+  </joint>
+
+  <!-- LiDAR -->
+  <link name="lidar_link">
+    <visual>
+      <geometry>
+        <cylinder radius="0.1" length="0.15"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+  </link>
+
+  <joint name="imu_to_lidar_joint" type="fixed">
+    <origin xyz="0.81 -0.32 0.8"/>
+    <parent link="imu_link"/>
+    <child link="lidar_link"/>
+  </joint>
+
+  <!-- Camera -->
+  <xacro:property name="camera_length" value="0.05"/>
+  <xacro:property name="camera_width" value="0.05"/>
+  <xacro:property name="camera_height" value="0.1"/>
+
+  <!-- Camera 0 (gray left) -->
+  <link name="camera0_link">
+    <visual>
+      <geometry>
+        <box size="${camera_length} ${camera_width} ${camera_height}"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+  </link>
+
+  <joint name="lidar_to_camera0_joint" type="fixed">
+    <!-- x: pointing right, y: pointing down, z: pointint front-->
+    <origin rpy="${-pi/2} 0 ${-pi/2}" xyz="0.27 0 -0.08"/>
+    <parent link="lidar_link"/>
+    <child link="camera0_link"/>
+  </joint>
+
+  <!-- Camera 1 (gray right) -->
+  <link name="camera1_link">
+    <visual>
+      <geometry>
+        <box size="${camera_length} ${camera_width} ${camera_height}"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+  </link>
+
+  <joint name="camera0_to_camera1_joint" type="fixed">
+    <origin xyz="0.54 0 0"/>
+    <parent link="camera0_link"/>
+    <child link="camera1_link"/>
+  </joint>
+
+  <!-- Camera 2 (color left) -->
+  <link name="camera2_link">
+    <visual>
+      <geometry>
+        <box size="${camera_length} ${camera_width} ${camera_height}"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+  </link>
+
+  <joint name="camera0_to_camera2" type="fixed">
+    <origin xyz="-0.06 0 0"/>
+    <parent link="camera0_link"/>
+    <child link="camera2_link"/>
+  </joint>
+
+  <!-- Camera 3 (color right) -->
+  <link name="camera3_link">
+    <visual>
+      <geometry>
+        <box size="${camera_length} ${camera_width} ${camera_height}"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+  </link>
+
+  <joint name="camera0_to_camera3" type="fixed">
+    <origin xyz="0.48 0 0"/>
+    <parent link="camera0_link"/>
+    <child link="camera3_link"/>
+  </joint>
 
 </robot>
