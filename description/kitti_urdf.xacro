@@ -23,23 +23,11 @@
   </material>
 
 
-  <!-- This link is help to identify the vehicle -->
-  <!--
-  <link name="map">
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <sphere radius="0.1"/>
-      </geometry>
-      <material name="red"/>
-    </visual>
-  </link>
-  -->
-
+  <!-- body of the vehicle -->
   <link name="base_link">
     <!-- body base -->
     <visual>
-      <origin rpy="0 0 0" xyz="1.355 0 0.675"/>
+      <origin xyz="1.355 0 0.675"/>
       <geometry>
         <box size="2.71 1.60 1.35"/>
       </geometry>
@@ -57,9 +45,9 @@
 
     <collision>
       <geometry>
+      <origin xyz="1.355 0 0.675"/>
         <box size="2.71 1.60 1.90"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="1.355 0 0.675"/>
     </collision>
 
     <!-- front left wheel -->
@@ -99,16 +87,6 @@
     </visual>
   </link>
 
-  <!-- A simple fixed joint from our empty map link, to our base. -->
-  <!-- The base origin is offset from the map origin -->
-  <!--
-  <joint name="map_to_base_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0 0.3"/>
-    <parent link="map"/>
-    <child link="base_link"/>
-  </joint>
-  -->
-
   <!-- GPS object -->
   <link name="gps_link">
     <visual>
@@ -120,7 +98,7 @@
   </link>
 
   <joint name="base_to_gps_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="-0.05 0.32 0.63"/>
+    <origin xyz="-0.05 0.32 0.63"/>
     <parent link="base_link"/>
     <child link="gps_link"/>
   </joint>
@@ -131,7 +109,7 @@
   </link>
 
   <joint name="base_to_imu_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="-0.05 0.32 0.63"/>
+    <origin xyz="-0.05 0.32 0.63"/>
     <parent link="base_link"/>
     <child link="imu_link"/>
   </joint>
@@ -147,16 +125,15 @@
   </link>
 
   <joint name="imu_to_lidar_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0.81 -0.32 0.8"/>  <!-- okay! double checked. -->
+    <origin xyz="0.81 -0.32 0.8"/>  <!-- okay! double checked. -->
     <parent link="imu_link"/>
     <child link="lidar_link"/>
   </joint>
 
   <!-- Camera -->
-  <!-- Camera gray left -->
-  <link name="gray_left_camera_link">
+  <!-- Camera 0 (gray left) -->
+  <link name="camera0_link">
     <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
         <box size="0.05 0.05 0.1"/>
       </geometry>
@@ -164,29 +141,59 @@
     </visual>
   </link>
 
-  <joint name="lidar_to_gray_left_camera_joint" type="fixed">
-    <!-- warning!!! the coordinate is different!!! -->
+  <joint name="lidar_to_camera0_joint" type="fixed">
     <!-- x: pointing right, y: pointing down, z: pointint front-->
     <origin rpy="-1.570796327 0 -1.570796327" xyz="0.27 0 -0.08"/>
     <parent link="lidar_link"/>
-    <child link="gray_left_camera_link"/>
+    <child link="camera0_link"/>
   </joint>
 
-  <!-- Camera color left
-  <link name="color_left_camera_link">
+  <!-- Camera 1 (gray right) -->
+  <link name="camera1_link">
     <visual>
       <geometry>
-        <box size="0.1 0.05 0.05"/>
+        <box size="0.05 0.05 0.1"/>
       </geometry>
       <material name="green"/>
     </visual>
   </link>
 
-  <joint name="gray_left_camera_to_color_left_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0.06 0"/>
-    <parent link="gray_left_camera_link"/>
-    <child link="color_left_camera_link"/>
+  <joint name="camera0_to_camera1_joint" type="fixed">
+    <origin xyz="0.54 0 0"/>
+    <parent link="camera0_link"/>
+    <child link="camera1_link"/>
   </joint>
-  -->
+
+  <!-- Camera 2 (color left) -->
+  <link name="camera2_link">
+    <visual>
+      <geometry>
+        <box size="0.05 0.05 0.1"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+  </link>
+
+  <joint name="camera0_to_camera2" type="fixed">
+    <origin xyz="-0.06 0 0"/>
+    <parent link="camera0_link"/>
+    <child link="camera2_link"/>
+  </joint>
+
+  <!-- Camera 3 (color right) -->
+  <link name="camera3_link">
+    <visual>
+      <geometry>
+        <box size="0.05 0.05 0.1"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+  </link>
+
+  <joint name="camera0_to_camera3" type="fixed">
+    <origin xyz="0.48 0 0"/>
+    <parent link="camera0_link"/>
+    <child link="camera3_link"/>
+  </joint>
 
 </robot>
