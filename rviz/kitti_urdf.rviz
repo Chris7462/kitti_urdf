@@ -3,7 +3,11 @@ Panels:
     Help Height: 78
     Name: Displays
     Property Tree Widget:
-      Expanded: ~
+      Expanded:
+        - /TF1/Tree1/base_link1
+        - /TF1/Tree1/base_link1/imu_link1
+        - /TF1/Tree1/base_link1/imu_link1/velo_link1
+        - /TF1/Tree1/base_link1/imu_link1/velo_link1/cam0_link1
       Splitter Ratio: 0.5
     Tree Height: 773
   - Class: rviz_common/Selection
@@ -114,7 +118,7 @@ Visualization Manager:
       Enabled: true
       Frame Timeout: 15
       Frames:
-        All Enabled: false
+        All Enabled: true
         base_link:
           Value: true
         cam0_link:
@@ -197,7 +201,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 6.750947952270508
+      Distance: 8.468389511108398
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
