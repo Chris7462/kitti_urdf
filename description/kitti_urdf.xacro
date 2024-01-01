@@ -121,7 +121,7 @@
   </joint>
 
   <!-- LiDAR -->
-  <link name="lidar_link">
+  <link name="velo_link">
     <visual>
       <geometry>
         <cylinder radius="0.1" length="0.15"/>
@@ -130,10 +130,10 @@
     </visual>
   </link>
 
-  <joint name="imu_to_lidar_joint" type="fixed">
+  <joint name="imu_to_velo_joint" type="fixed">
     <origin xyz="0.81 -0.32 0.8"/>
     <parent link="imu_link"/>
-    <child link="lidar_link"/>
+    <child link="velo_link"/>
   </joint>
 
   <!-- Camera -->
@@ -142,7 +142,7 @@
   <xacro:property name="camera_height" value="0.1"/>
 
   <!-- Camera 0 (gray left) -->
-  <link name="camera0_link">
+  <link name="cam0_link">
     <visual>
       <geometry>
         <box size="${camera_length} ${camera_width} ${camera_height}"/>
@@ -151,15 +151,15 @@
     </visual>
   </link>
 
-  <joint name="lidar_to_camera0_joint" type="fixed">
+  <joint name="velo_to_cam0_joint" type="fixed">
     <!-- x: pointing right, y: pointing down, z: pointint front-->
     <origin rpy="${-pi/2} 0 ${-pi/2}" xyz="0.27 0 -0.08"/>
-    <parent link="lidar_link"/>
-    <child link="camera0_link"/>
+    <parent link="velo_link"/>
+    <child link="cam0_link"/>
   </joint>
 
   <!-- Camera 1 (gray right) -->
-  <link name="camera1_link">
+  <link name="cam1_link">
     <visual>
       <geometry>
         <box size="${camera_length} ${camera_width} ${camera_height}"/>
@@ -168,14 +168,14 @@
     </visual>
   </link>
 
-  <joint name="camera0_to_camera1_joint" type="fixed">
+  <joint name="cam0_to_cam1_joint" type="fixed">
     <origin xyz="0.54 0 0"/>
-    <parent link="camera0_link"/>
-    <child link="camera1_link"/>
+    <parent link="cam0_link"/>
+    <child link="cam1_link"/>
   </joint>
 
   <!-- Camera 2 (color left) -->
-  <link name="camera2_link">
+  <link name="cam2_link">
     <visual>
       <geometry>
         <box size="${camera_length} ${camera_width} ${camera_height}"/>
@@ -184,14 +184,14 @@
     </visual>
   </link>
 
-  <joint name="camera0_to_camera2" type="fixed">
+  <joint name="cam0_to_cam2" type="fixed">
     <origin xyz="-0.06 0 0"/>
-    <parent link="camera0_link"/>
-    <child link="camera2_link"/>
+    <parent link="cam0_link"/>
+    <child link="cam2_link"/>
   </joint>
 
   <!-- Camera 3 (color right) -->
-  <link name="camera3_link">
+  <link name="cam3_link">
     <visual>
       <geometry>
         <box size="${camera_length} ${camera_width} ${camera_height}"/>
@@ -200,10 +200,10 @@
     </visual>
   </link>
 
-  <joint name="camera0_to_camera3" type="fixed">
+  <joint name="cam0_to_cam3" type="fixed">
     <origin xyz="0.48 0 0"/>
-    <parent link="camera0_link"/>
-    <child link="camera3_link"/>
+    <parent link="cam0_link"/>
+    <child link="cam3_link"/>
   </joint>
 
 </robot>

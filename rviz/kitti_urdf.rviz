@@ -3,9 +3,7 @@ Panels:
     Help Height: 78
     Name: Displays
     Property Tree Widget:
-      Expanded:
-        - /Global Options1
-        - /TF1/Tree1/base_link1
+      Expanded: ~
       Splitter Ratio: 0.5
     Tree Height: 773
   - Class: rviz_common/Selection
@@ -70,6 +68,26 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        cam0_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        cam1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        cam2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        cam3_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         gps_link:
           Alpha: 1
           Show Axes: false
@@ -79,6 +97,11 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        velo_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
       Mass Properties:
         Inertia: false
         Mass: false
@@ -94,9 +117,19 @@ Visualization Manager:
         All Enabled: false
         base_link:
           Value: true
+        cam0_link:
+          Value: true
+        cam1_link:
+          Value: true
+        cam2_link:
+          Value: true
+        cam3_link:
+          Value: true
         gps_link:
           Value: true
         imu_link:
+          Value: true
+        velo_link:
           Value: true
       Marker Scale: 3
       Name: TF
@@ -108,7 +141,14 @@ Visualization Manager:
           gps_link:
             {}
           imu_link:
-            {}
+            velo_link:
+              cam0_link:
+                cam1_link:
+                  {}
+                cam2_link:
+                  {}
+                cam3_link:
+                  {}
       Update Interval: 0
       Value: true
   Enabled: true
