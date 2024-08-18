@@ -93,8 +93,8 @@
     </visual>
   </link>
 
-  <!-- GPS object -->
-  <link name="gps_link">
+  <!-- OXTS (GPS/IMU) object -->
+  <link name="oxts_link">
     <visual>
       <geometry>
         <box size="0.2 0.05 0.05"/>
@@ -103,21 +103,10 @@
     </visual>
   </link>
 
-  <joint name="base_to_gps_joint" type="fixed">
+  <joint name="base_to_oxts_joint" type="fixed">
     <origin xyz="-0.05 0.32 0.63"/>
     <parent link="base_link"/>
-    <child link="gps_link"/>
-  </joint>
-
-  <!-- IMU object -->
-  <link name="imu_link">
-    <!-- Same object with GPS. Only put the link. -->
-  </link>
-
-  <joint name="base_to_imu_joint" type="fixed">
-    <origin xyz="-0.05 0.32 0.63"/>
-    <parent link="base_link"/>
-    <child link="imu_link"/>
+    <child link="oxts_link"/>
   </joint>
 
   <!-- LiDAR -->
@@ -130,9 +119,9 @@
     </visual>
   </link>
 
-  <joint name="imu_to_velo_joint" type="fixed">
+  <joint name="oxts_to_velo_joint" type="fixed">
     <origin xyz="0.81 -0.32 0.8"/>
-    <parent link="imu_link"/>
+    <parent link="oxts_link"/>
     <child link="velo_link"/>
   </joint>
 
